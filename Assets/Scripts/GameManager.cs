@@ -6,9 +6,9 @@ using System;
 public class GameManager : MonoBehaviour
 {
 
-    public static event Action OnMainMenu;
-    public static event Action OnItemsMenu;
-    public static event Action OnARPosition;
+    public event Action OnMainMenu;
+    public event Action OnItemsMenu;
+    public event Action OnARPosition;
 
     private static GameManager instance;
     public static GameManager Instance { get { return instance; } }

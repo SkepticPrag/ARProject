@@ -3,6 +3,7 @@ using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.EventSystems;
 using UnityEngine;
+using System;
 
 public class ARInteractionManager : MonoBehaviour
 {
@@ -13,7 +14,11 @@ public class ARInteractionManager : MonoBehaviour
 
     private bool _isInitialPosition;
     private bool _isOverUI;
+    private bool _isOverItemModel;
 
+    private Vector2 _initialTouchPosition;
+
+    private GameObject _selectedItem;
     private GameObject _itemModel;
 
     public GameObject ItemModel
@@ -57,7 +62,8 @@ public class ARInteractionManager : MonoBehaviour
             if (touchOne.phase == TouchPhase.Began)
             {
                 var touchPosition = touchOne.position;
-                _isOverUI = isTapOverUI(touchPosition);
+                _isOverUI = IsTapOverUI(touchPosition);
+                _isOverItemModel = IsOverItemModel(touchPosition);
             }
 
             if (touchOne.phase == TouchPhase.Moved)
@@ -65,14 +71,54 @@ public class ARInteractionManager : MonoBehaviour
                 if (_arRaycastManager.Raycast(touchOne.position, _hits, TrackableType.Planes))
                 {
                     Pose hitPose = _hits[0].pose;
-                    if (!_isOverUI)
+
+                    if (!_isOverUI && _isOverItemModel)
                         transform.position = hitPose.position;
+                }
+            }
+
+            if (Input.touchCount == 2)
+            {
+                Touch touchTwo = Input.GetTouch(1);
+                if (touchOne.phase == TouchPhase.Began || touchTwo.phase == TouchPhase.Began)
+                    _initialTouchPosition = touchTwo.position - touchOne.position;
+
+                if (touchOne.phase == TouchPhase.Moved || touchTwo.phase == TouchPhase.Moved)
+                {
+                    Vector2 currentTouchPosition = touchTwo.position - touchOne.position;
+                    float angle = Vector2.SignedAngle(_initialTouchPosition, currentTouchPosition);
+                    _itemModel.transform.rotation = Quaternion.Euler(0, _itemModel.transform.eulerAngles.y - angle, 0);
+                    _initialTouchPosition = currentTouchPosition;
+                }
+
+                if(_isOverItemModel && _itemModel == null && !_isOverUI)
+                {
+                    GameManager.Instance.ARPosition();
+                    _itemModel = _selectedItem;
+                    _selectedItem = null;
+                    _arPointer.SetActive(true);
+                    transform.position = _itemModel.transform.position;
+                    _itemModel.transform.parent = _arPointer.transform;
                 }
             }
         }
     }
 
-    private bool isTapOverUI(Vector2 touchPosition)
+    private bool IsOverItemModel(Vector2 touchPosition)
+    {
+        Ray ray = _arCamera.ScreenPointToRay(touchPosition);
+        if (Physics.Raycast(ray, out RaycastHit hitItemModel))
+        {
+            if (hitItemModel.collider.CompareTag("Item"))
+            {
+                _selectedItem = hitItemModel.transform.gameObject;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private bool IsTapOverUI(Vector2 touchPosition)
     {
         PointerEventData eventData = new PointerEventData(EventSystem.current);
         eventData.position = new Vector2(touchPosition.x, touchPosition.y);

@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
-using UnityEngine;
-using System;
 using UnityEngine.EventSystems;
+using UnityEngine;
 
 public class ARInteractionManager : MonoBehaviour
 {
@@ -87,17 +85,17 @@ public class ARInteractionManager : MonoBehaviour
 
     private void SetItemPosition()
     {
-        if (ItemModel != null)
+        if (_itemModel != null)
         {
-            ItemModel.transform.parent = null;
+            _itemModel.transform.parent = null;
             _arPointer.SetActive(false);
-            ItemModel = null;
+            _itemModel = null;
         }
     }
 
     public void DeleteItem()
     {
-        Destroy(ItemModel);
+        Destroy(_itemModel);
         _arPointer.SetActive(false);
         GameManager.Instance.MainMenu();
     }

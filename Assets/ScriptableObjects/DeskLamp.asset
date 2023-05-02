@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27016ec2a7479c429810c3bbb4807a7, type: 3}
   m_Name: DeskLamp
   m_EditorClassIdentifier: 
-  ItemName: DeskLamp
+  ItemName: Desk Lamp
   ItemImage: {fileID: 21300000, guid: d5d87c47ab7c04b4698b50dacd3004af, type: 3}
   ItemDescription: Old Desk Lamp
   ItemModel: {fileID: 365399002079996769, guid: a6359f2c251dfd642993933060f36a42, type: 3}

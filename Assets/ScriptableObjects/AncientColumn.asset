@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27016ec2a7479c429810c3bbb4807a7, type: 3}
   m_Name: AncientColumn
   m_EditorClassIdentifier: 
-  ItemName: AncientColumn
+  ItemName: Greek Column
   ItemImage: {fileID: 21300000, guid: 322013cc7b1d2ca48971bad1435235b1, type: 3}
   ItemDescription: Ancient Greek Column
   ItemModel: {fileID: 317281107843305694, guid: 035272d0ccbd6f143a482c8fc13755fc, type: 3}

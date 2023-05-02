@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27016ec2a7479c429810c3bbb4807a7, type: 3}
   m_Name: TableLamp
   m_EditorClassIdentifier: 
-  ItemName: TableLamp
+  ItemName: Table Lamp
   ItemImage: {fileID: 21300000, guid: 955aac9f203a86a4eb624bc70f87b3a6, type: 3}
   ItemDescription: A Table Lamp
   ItemModel: {fileID: 830575404215968051, guid: 898fc954e9d768f4baf1035aff209451, type: 3}

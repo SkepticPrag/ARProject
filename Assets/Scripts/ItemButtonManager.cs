@@ -21,6 +21,8 @@ public class ItemButtonManager : MonoBehaviour
 
     public GameObject ItemModel { set { _itemModel = value; } get { return _itemModel; } }
 
+    private ARInteractionManager _arInteractionManager;
+
     private void Start()
     {
         transform.GetChild(0).GetComponent<TMP_Text>().text = _itemName;
@@ -30,10 +32,12 @@ public class ItemButtonManager : MonoBehaviour
         var button = GetComponent<Button>();
         button.onClick.AddListener(GameManager.Instance.ARPosition);
         button.onClick.AddListener(Create3DModel);
+
+        _arInteractionManager = FindObjectOfType<ARInteractionManager>();
     }
 
     private void Create3DModel()
     {
-        Instantiate(_itemModel);
+        _arInteractionManager.ItemModel = Instantiate(_itemModel);
     }
 }
